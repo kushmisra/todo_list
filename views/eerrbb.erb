@@ -1,0 +1,147 @@
+<div background-color="#000000">
+<center><h1> HELLO TO THE TASK MANAGER APP </h1></center>
+<center><h4>black is urgent and important <br/>
+			red is urgent but not important<br/>
+			purple is important but not urgent<br/>
+			green is not important and not important<br/>
+</h4></center>
+
+<form action="/enter_task" method="POST">
+
+<% if urgent!="" %>
+  <h3> current task is urgent </h3>
+<% end %>
+	
+<% if important!="" %>
+  <h3> current task is important </h3>
+<% end %>
+
+<input type="text" name="task_name" placeholder="Enter your Task here" value="" required />
+
+<input type="submit" name="enter_task" value="addtask"/>
+
+</form>
+
+<form style="float: left;" action="/important" method="POST">
+	
+<input type="hidden" name="important" value="important" />
+
+<input type="submit" value="important"/>
+
+</form>
+
+<form action="/urgent" method="POST">
+	
+<input type="hidden" name="urgent" value="urgent" />
+
+<input type="submit" name="urgent" value="urgent"/>
+
+</form>
+
+
+
+<% task_list.each do |task| %>
+	
+	<% if task.t_importance && task.t_priority %>
+		<% if task.t_done %>
+			<div class="ui">
+			<h5 class="s"><%= task.t_name %></h5>
+		<%else %>
+			<div class="ui">
+			<h5 ><%= task.t_name %></h5>
+		<% end %>
+	<% elsif task.t_importance  %>
+		<% if task.t_done %>
+			<div class="important">
+			<h5 class="s"><%= task.t_name %></h5>
+		<%else %>
+			<div class="important">
+			<h5 ><%= task.t_name %></h5>
+		<% end %>
+	<% elsif  task.t_priority %>
+		<% if task.t_done %>
+			<div class="urgent">
+			<h5 class="s"><%= task.t_name %></h5>
+		<%else %>
+			<div class="urgent">
+			<h5 ><%= task.t_name %></h5>
+		<% end %>
+	<% else %>
+		<% if task.t_done %>
+			<div class="nui">
+			<h5 class="s" ><%= task.t_name %></h5>
+		<%else %>
+			<div class="nui">
+			<h5><%= task.t_name %></h5>
+		<% end %>
+	<% end %>
+
+
+
+	<%= task.t_importance %>
+	<%= task.t_priority %>
+	<br/>
+	<form style="float: left;"  action="/toggle_important" method="POST">
+	
+	<input type="hidden" name="id" value="<%= task.id %>" />
+
+	<input type="submit" style=" width: 330;" value="toggle_important"/>
+
+	</form>
+
+	<form style="float: left;"  action="/toggle_urgent" method="POST">
+	
+	<input type="hidden" name="id" value="<%= task.id %>" />
+
+	<input type="submit" style=" width: 330;" value="toggle_urgent"/>
+
+	</form>
+
+
+	<form style="float: left;"  action="/task_done" method="POST">
+	
+	<input type="hidden" name="id" value="<%= task.id %>" />
+
+	<input type="submit" style=" width: 330;" value="Done?"/>
+
+	</form>	
+
+	<form style="float: left;"  action="/task_remove" method="POST">
+	
+	<input type="hidden" name="id" value="<%= task.id %>" />
+
+	<input type="submit" style=" width: 330;" value="Remove task"/>
+
+	</form>	
+
+	<br/>
+	</div>
+
+	
+<% end %>
+
+
+<style type="text/css">
+	
+.urgent{
+
+	background-color: rgba(255,0,0,0.7);
+}
+
+.important{
+	background-color: rgba(128,0,128,0.7);
+}
+
+.ui{
+	background-color: rgba(0,0,0,0.7);
+	color:white;
+}
+.nui{
+	background-color: rgba(0,255,0,0.7);
+}
+.s{
+	text-decoration: line-through;
+}
+</style>
+
+</div>
