@@ -23,10 +23,17 @@ Task.auto_upgrade!
 
 urgent=false
 important=false
+calledonlydone=false
 
 get '/'  do
 
-	task_list=Task.all
+	if(!calledonlydone)
+		task_list=Task.all
+	else
+		task_list=Task.all(:t_done=>true)
+		calledonlydone=false
+	end
+
 	imp=""
 	ur=""
 	if(important)
@@ -51,6 +58,16 @@ post '/enter_task' do
 
 end
 
+post '/alldone' do
+	calledonlydone=true
+	redirect '/'
+end
+
+post '/alltasks' do
+	calledonlydone=false
+	redirect '/'
+end
+
 post '/important' do
 
 	important=!important
@@ -69,15 +86,7 @@ post '/toggle_important' do
 	id=params[:id].to_i
 	testing=id
 	task=Task.get(id)
-
-	puts "reached here"
-
-	puts "ans important is #{task.t_importance}"
-
 	task.t_importance=!task.t_importance
-
-	puts "ans important is #{task.t_importance}"
-
 	task.save
 
 	redirect '/'
