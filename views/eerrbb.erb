@@ -5,13 +5,20 @@
 </style>
 
 <body >
-<center><h1> HELLO TO THE TASK MANAGER APP </h1></center>
+<center><h1> HELLO <%=current%> TO THE TASK MANAGER APP </h1></center>
 <center><h4>black is urgent and important <br/>
 			red is urgent but not important<br/>
 			purple is important but not urgent<br/>
 			green is not important and not important<br/>
 </h4></center>
 <center>
+
+
+<form action="/logout" method="POST">
+	<input type="submit" value="log out">	
+</form>
+
+
 <form action="/alldone"  method="POST">
 	<input type="submit" name="get all done" value="get all done" />
 </form>
